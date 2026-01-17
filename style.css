@@ -291,40 +291,24 @@ body {
 /* =========================
    ANCIENT TAMIL CHESS TITLE
 ========================= */
+/* ===== IMAGE TITLE STYLE ===== */
 
-.tamil-title {
-    font-family: 'Noto Serif Tamil', serif;
-    font-size: 52px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin: 20px 0 30px;
-
-    /* Royal bronze-gold gradient */
-    background: linear-gradient(
-        120deg,
-        #e6c87a,
-        #c9a227,
-        #8b6b1f
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
-    /* Ancient carved stone feel */
-    text-shadow:
-        0 2px 1px rgba(0, 0, 0, 0.5),
-        0 6px 10px rgba(0, 0, 0, 0.45);
-
-    /* Gentle reveal animation */
-    animation: tamilTitleReveal 1.8s ease-out forwards;
+.title-container {
+    text-align: center;
+    margin: 20px 0 10px 0;
 }
 
-@keyframes tamilTitleReveal {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
+.title-image {
+    max-width: 90%;
+    width: 520px;
+    height: auto;
+
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.6));
+}
+
+/* Mobile support */
+@media (max-width: 600px) {
+    .title-image {
+        width: 90%;
     }
 }
