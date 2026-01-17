@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Chess Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1 class="chess-title">Mind Battle ⚔️</h1>
+
+
+
+
+<!-- 🔹 GAME CONTAINER -->
+<div id="gameContainer">
+
+    <!-- 🔹 CHESS BOARD -->
+    <div id="board"></div>
+
+    <!-- 🔹 PLAY AGAIN (ALWAYS AVAILABLE) -->
+    <div id="playAgainContainer">
+        <button onclick="undoMove()">Undo</button>
+        <button id="playAgainBtn" onclick="restartGame()">Play Again</button>
+    </div>
+
+</div>
+
+<!-- 🔹 GAME OVER OVERLAY -->
+<div id="gameOverOverlay" class="overlay hidden">
+    <div class="gameover-box">
+        <h2>Game Over</h2>
+        <p id="winnerText"></p>
+        <button onclick="viewBoard()">View Board</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

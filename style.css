@@ -1,0 +1,342 @@
+body {
+    text-align: center;
+    font-family: Arial;
+}
+
+/* =========================
+   BOARD
+========================= */
+#board {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    border: 2px solid black;
+}
+
+/* =========================
+   SQUARES
+========================= */
+.square {
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.white {
+    background-color: #f0d9b5;
+}
+
+.black {
+    background-color: #b58863;
+}
+
+/* =========================
+   PIECES
+========================= */
+.square img {
+    width: 80%;
+    height: 80%;
+    pointer-events: none;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+/* =========================
+   SELECTED PIECE UI
+   (Grey shadow + border + lift)
+========================= */
+.square.selected::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        rgb(255, 255, 255),
+        rgba(170, 170, 170, 0.16)
+    );
+    z-index: 1;
+}
+
+/* Soft professional focus border */
+.square.selected {
+    box-shadow:
+        inset 0 0 0 5px rgb(7, 61, 239), /* ✅ white border */
+        0 6px 14px rgb(0, 0, 0);            /* depth */
+}
+
+
+/* Lifted piece */
+.square.selected img {
+    position: relative;
+    z-index: 2;
+    transform: translateY(-12px) scale(1.08);
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.55));
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+/* =========================
+   POSSIBLE MOVE – DIAMOND
+========================= */
+.diamond {
+    width: 12px;
+    height: 12px;
+    background:  rgba(14, 14, 14, 0.18);
+    transform: rotate(45deg);
+    border-radius: 2px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* =========================
+   CAPTURE UI (UNCHANGED)
+========================= */
+.capture-x {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.capture-x::before,
+.capture-x::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 80%;
+    height: 4px;
+    background: rgba(225, 40, 40, 0.54);
+    transform-origin: center;
+}
+
+.capture-x::before {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.capture-x::after {
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+/* =========================
+   REMOVE FOCUS OUTLINES
+========================= */
+.square:focus,
+.square:focus-visible {
+    outline: none;
+}
+#gameOverModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#gameOverModal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    padding: 8px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+/* =========================
+   GAME OVER MODAL
+========================= */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.hidden {
+    display: none;
+}
+
+.gameover-box {
+    background: #f5f5f5;
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: pop 0.25s ease;
+}
+
+.gameover-box h2 {
+    margin: 0 0 10px;
+    font-size: 26px;
+}
+
+.gameover-box p {
+    font-size: 18px;
+    margin: 10px 0 20px;
+}
+
+.gameover-box button {
+    padding: 10px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #3b82f6;
+    color: white;
+}
+
+.gameover-box button:hover {
+    background: #2563eb;
+}
+
+@keyframes pop {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/* ===== GAME OVER BOARD STATE ===== */
+.board-disabled {
+    pointer-events: none; 
+}
+.gameover-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.gameover-actions button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.gameover-actions button.primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.gameover-actions button.primary:hover {
+    background: #2563eb;
+}
+
+.gameover-actions button:not(.primary) {
+    background: #e5e7eb;
+}
+
+.gameover-actions button:not(.primary):hover {
+    background: #d1d5db;
+}
+#playAgainContainer {
+    margin-top: 18px;
+    text-align: center;
+}
+
+#playAgainBtn {
+    padding: 10px 22px;
+    font-size: 15px;
+    font-weight: bold;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#playAgainBtn:hover {
+    background: #1b5e20;
+}
+
+.hidden {
+    display: none;
+}
+/* =========================
+   HEADER STYLING
+========================= */
+./* =========================
+   3D MULTICOLOR HEADER
+========================= */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 18px 0 14px;
+}
+
+.title-3d {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    /* Elegant multicolor gradient */
+    background: linear-gradient(
+        90deg,
+        #ece8e4,
+        #cfa45d,
+        #ffffff,
+        #cfa45d,
+        #7a4a1c
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Strong 3D depth */
+    text-shadow:
+        1px 1px 0 #5a3a12,
+        2px 2px 0 #a77cc0,
+        3px 3px 0 #4fa3be,
+        4px 4px 8px rgba(249, 205, 128, 0.35);
+
+    padding-bottom: 10px;
+
+    /* Premium underline */
+    border-bottom: 3px solid rgba(122, 74, 28, 0.6);
+}.chess-title {
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow:
+            1px 1px 0 #e6cd83,
+            2px 2px 0 #fbd774,
+            3px 3px 0 #f1c55d,
+            4px 4px 8px rgba(96, 95, 90, 0.5);
+    }
+    to {
+        text-shadow:
+            1px 1px 0 #d4af37,
+            2px 2px 0 #bfa130,
+            3px 3px 0 #a88b28,
+            4px 4px 14px rgba(231, 188, 45, 0.913);
+    }
+}
