@@ -290,7 +290,7 @@ body {
 ========================= */
 
 .chess-title {
-    font-size: 48px;
+    font-size: 50px;
     font-weight: 800;
     letter-spacing: 2px;
     margin-bottom: 20px;
@@ -308,7 +308,7 @@ body {
 
     /* 3D shadow */
     text-shadow:
-        0 2px 2px rgba(0, 0, 0, 0.4),
+        0 2px 2px rgba(214, 241, 9, 0.4),
         0 6px 12px rgba(0, 0, 0, 0.35);
 
     /* Animation */
