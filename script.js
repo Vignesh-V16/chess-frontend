@@ -138,11 +138,11 @@ function renderBoard() {
 function closePopup() {
     // Just close popup, keep board frozen
     document.getElementById("gameOverOverlay").classList.add("hidden");
-}
+} 
 
 function showGameOver(winner) {
     document.getElementById("winnerText").innerText =
-        `    👏👏👏 \n🏆 ${winner} is Winner!`;
+        `    👏👏👏👏 \n🏆 ${winner} is Winner!`;
 
     document.getElementById("gameOverOverlay").classList.remove("hidden");
 }
