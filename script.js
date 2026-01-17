@@ -142,7 +142,7 @@ function closePopup() {
 
 function showGameOver(winner) {
     document.getElementById("winnerText").innerText =
-        `Congrats! 👏 to 🏆 ${winner}`;
+        `    👏👏👏 \n🏆 ${winner} is Winner!`;
 
     document.getElementById("gameOverOverlay").classList.remove("hidden");
 }
