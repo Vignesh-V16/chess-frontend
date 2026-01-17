@@ -142,7 +142,7 @@ function closePopup() {
 
 function showGameOver(winner) {
     document.getElementById("winnerText").innerText =
-        `    🎉👏🎉 \n🏆 ${winner} is the Winner! 🏆`;
+        `    👏🎉👏 \n🏆 ${winner} is the Winner!`;
 
     document.getElementById("gameOverOverlay").classList.remove("hidden");
 }
@@ -165,33 +165,52 @@ async function undoMove() {
 ================================ */
 async function handleSquareClick(row, col) {
 
+    const clickedPiece = boardState[row][col];
+
     /* =========================
-       FIRST CLICK → SELECT
+       NO PIECE SELECTED YET
     ========================= */
     if (selectedSquare === null) {
 
-        const piece = boardState[row][col];
-        if (!piece || piece === "." || piece === " ") return;
+        if (!clickedPiece || clickedPiece === "." || clickedPiece === " ")
+            return;
 
-        // 🔒 TURN VALIDATION
-        const isWhitePiece = piece[0] === piece[0].toUpperCase();
+        const isWhitePiece = clickedPiece[0] === clickedPiece[0].toUpperCase();
+
         if (
             (currentTurn === "WHITE" && !isWhitePiece) ||
             (currentTurn === "BLACK" && isWhitePiece)
         ) {
-            return; // ❌ Not your turn
+            return;
         }
 
         selectedSquare = { row, col };
         clearIndicators();
-
         possibleMoves = await getMovesFromBackend(row, col);
         renderBoard();
         return;
     }
 
     /* =========================
-       SECOND CLICK → TRY MOVE
+       SWITCH SELECTION (🔥 FIX)
+    ========================= */
+    const selectedPiece = boardState[selectedSquare.row][selectedSquare.col];
+    const isSameColor =
+        clickedPiece &&
+        clickedPiece !== "." &&
+        (clickedPiece[0] === clickedPiece[0].toUpperCase()) ===
+        (selectedPiece[0] === selectedPiece[0].toUpperCase());
+
+    if (isSameColor) {
+        selectedSquare = { row, col };
+        clearIndicators();
+        possibleMoves = await getMovesFromBackend(row, col);
+        renderBoard();
+        return;
+    }
+
+    /* =========================
+       VALID MOVE
     ========================= */
     if (
         possibleMoves &&
@@ -210,30 +229,26 @@ async function handleSquareClick(row, col) {
             })
         });
 
-        // 🔑 FETCH GAME STATUS FROM BACKEND
         const statusRes = await fetch("https://sathurangavettai.up.railway.app/status");
         const status = await statusRes.json();
 
-        // GAME OVER HANDLING
         if (status.gameOver) {
-    showGameOver(status.winner);
-    return;
-}else {
-            // 🔄 UPDATE TURN FROM BACKEND
-            currentTurn = status.currentTurn;
+            showGameOver(status.winner);
+            return;
         }
+
+        currentTurn = status.currentTurn;
     }
 
     /* =========================
-       RESET UI STATE
+       RESET SELECTION
     ========================= */
     selectedSquare = null;
     possibleMoves = null;
     clearIndicators();
-
-    // Reload board from backend
     await loadBoardFromBackend();
 }
+
 async function restartGame() {
     // Reset backend state
     await fetch("https://sathurangavettai.up.railway.app/reset", {
