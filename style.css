@@ -288,42 +288,43 @@ body {
 /* =========================
    CHESS TITLE – 3D ANIMATION
 ========================= */
+/* =========================
+   ANCIENT TAMIL CHESS TITLE
+========================= */
 
-.chess-title {
-    font-size: 50px;
-    font-weight: 800;
+.tamil-title {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 52px;
+    font-weight: 700;
     letter-spacing: 2px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+    margin: 20px 0 30px;
 
-    /* Gradient text */
+    /* Royal bronze-gold gradient */
     background: linear-gradient(
-        135deg,
-        #f5d76e,
-        #d4af37,
-        #b8860b
+        120deg,
+        #e6c87a,
+        #c9a227,
+        #8b6b1f
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    /* 3D shadow */
+    
+    /* Ancient carved stone feel */
     text-shadow:
-        0 2px 2px rgba(214, 241, 9, 0.4),
-        0 6px 12px rgba(0, 0, 0, 0.35);
+        0 2px 1px rgba(0, 0, 0, 0.5),
+        0 6px 10px rgba(0, 0, 0, 0.45);
 
-    /* Animation */
-    animation: chessTitleFloat 3s ease-in-out infinite;
+    /* Gentle reveal animation */
+    animation: tamilTitleReveal 1.8s ease-out forwards;
 }
 
-/* Floating animation */
-@keyframes chessTitleFloat {
+@keyframes tamilTitleReveal {
     0% {
-        transform: translateY(0) scale(1);
-    }
-    50% {
-        transform: translateY(-6px) scale(1.03);
+        opacity: 0;
+        transform: translateY(-10px);
     }
     100% {
-        transform: translateY(0) scale(1);
+        opacity: 1;
+        transform: translateY(0);
     }
 }
